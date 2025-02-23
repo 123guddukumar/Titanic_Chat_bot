@@ -1,0 +1,8 @@
+streamlit
+requests
+pillow
+fastapi
+uvicorn
+pandas
+matplotlib
+seaborn
