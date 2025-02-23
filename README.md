@@ -1,4 +1,4 @@
-# 🚢 Titanic Dataset Chatbot
+# 🚢 Titanic Chatbot
 
 A chatbot that answers questions about the Titanic dataset using **FastAPI** (backend) and **Streamlit** (frontend).  
 It leverages **LangChain** for natural language understanding and **Matplotlib/Seaborn** for data visualization.
@@ -8,13 +8,12 @@ It leverages **LangChain** for natural language understanding and **Matplotlib/S
 ## 📂 Folder Structure
 
 📁 Titanic-Chatbot │── 📁 backend # FastAPI Backend
-│ ├── main.py # API server
-│ ├── query_engine.py # Handles queries
+│ ├── main.py 
+│ ├── titanic.csv # Titanic dataset
 │ ├── requirements.txt # Backend dependencies
 │── 📁 frontend # Streamlit Frontend
 │ ├── app.py # UI for chatbot
 │ ├── requirements.txt # Frontend dependencies
-│── titanic.csv # Titanic dataset
 │── README.md # Project Documentation
 
 ## Features
