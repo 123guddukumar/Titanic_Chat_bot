@@ -17,7 +17,9 @@ subprocess.run(["pip", "install", "-r", "requirements.txt"], check=True)
 
 # Step 2: Start the FastAPI Backend
 print("🚀 Starting FastAPI backend...")
-backend_process = subprocess.Popen(["uvicorn", "backend.main:app", "--host", "127.0.0.1", "--port", "8000", "--reload"])
+backend_process = subprocess.Popen(["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "$PORT", "--reload"])
+
+
 
 # Step 3: Wait for the backend to be ready
 print("⏳ Waiting for backend to start...")

@@ -33,3 +33,7 @@ uvicorn main:app --reload
 cd frontend
 pip install -r requirements.txt
 streamlit run app.py
+
+# In locally run then replace
+--host 0.0.0.0 to --host 127.0.0.1
+--port $PORT to --port 8000
