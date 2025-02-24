@@ -1,41 +1,15 @@
 import subprocess
-import time
-import requests
-import os
+import threading
 
-# Function to check if the FastAPI server is running
-def is_backend_running():
-    try:
-        response = requests.get("http://127.0.0.1:8000/docs")
-        return response.status_code == 200
-    except requests.exceptions.RequestException:
-        return False
+def run_backend():
+    subprocess.run(["uvicorn", "Backend.main:app", "--host", "0.0.0.0", "--port", "10000"])
 
-# Step 1: Install Dependencies
-print("📦 Installing dependencies...")
-subprocess.run(["pip", "install", "-r", "requirements.txt"], check=True)
+def run_frontend():
+    subprocess.run(["streamlit", "run", "frontend/app.py", "--server.port", "8501", "--server.address", "0.0.0.0"])
 
-# Step 2: Start the FastAPI Backend
-print("🚀 Starting FastAPI backend...")
-backend_process = subprocess.Popen(["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "$PORT", "--reload"])
+# Run backend in a separate thread
+backend_thread = threading.Thread(target=run_backend)
+backend_thread.start()
 
-
-
-# Step 3: Wait for the backend to be ready
-print("⏳ Waiting for backend to start...")
-for _ in range(20):  # Wait up to 20 seconds
-    if is_backend_running():
-        print("✅ Backend is running!")
-        break
-    time.sleep(1)
-else:
-    print("❌ Backend failed to start. Exiting...")
-    backend_process.terminate()
-    exit(1)
-
-# Step 4: Start Streamlit Frontend
-print("🎨 Starting Streamlit frontend...")
-subprocess.run(["streamlit", "run", "frontend/app.py"], check=True)
-
-# Step 5: Cleanup backend process on exit
-backend_process.terminate()
+# Run frontend
+run_frontend()
