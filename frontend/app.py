@@ -4,6 +4,9 @@ import base64
 from PIL import Image
 from io import BytesIO
 
+# Set the backend URL (Replace with your Render FastAPI backend URL)
+BACKEND_URL = "https://titanic-backend.onrender.com"
+
 # App UI
 st.set_page_config(page_title="🚢 Titanic Chatbot", layout="centered")
 st.title("🚢 Titanic Data Chatbot")
@@ -26,20 +29,28 @@ question = st.text_input("Type your question:", placeholder="Ask about the Titan
 
 if st.button("Ask"):
     if question:
-        response = requests.get("http://127.0.0.1:8000/query/", params={"question": question})
-        data = response.json()
+        try:
+            response = requests.get(f"{BACKEND_URL}/query/", params={"question": question})
+            
+            if response.status_code == 200:
+                data = response.json()
 
-        if "answer" in data:
-            st.success(data["answer"])
+                if "answer" in data:
+                    st.success(data["answer"])
 
-        if "image" in data:
-            image_data = base64.b64decode(data["image"])
-            image = Image.open(BytesIO(image_data))
-            st.image(image, caption="Generated Visualization", use_column_width=True)
+                if "image" in data:
+                    image_data = base64.b64decode(data["image"])
+                    image = Image.open(BytesIO(image_data))
+                    st.image(image, caption="Generated Visualization", use_column_width=True)
+            else:
+                st.error("⚠️ Failed to get a response. Please try again later.")
+        
+        except requests.exceptions.RequestException as e:
+            st.error(f"⚠️ Connection Error: {e}")
     else:
-        st.warning("Please enter a question!")
+        st.warning("⚠️ Please enter a question!")
 
-# Sidebar for styling
+# Sidebar Information
 st.sidebar.title("ℹ️ About")
 st.sidebar.info("This chatbot analyzes the Titanic dataset using FastAPI, LangChain, and Streamlit.")
-st.sidebar.text("💻👨‍💻 Developer ❤️ Guddu Kumar")
+st.sidebar.text("💻👨‍💻 Developed by Guddu Kumar")
