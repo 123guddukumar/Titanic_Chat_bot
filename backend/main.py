@@ -4,11 +4,15 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from io import BytesIO
 import base64
+import os 
 
 app = FastAPI()
 
 # Load the Titanic dataset
-df = pd.read_csv("titanic.csv")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CSV_PATH = os.path.join(BASE_DIR, "titanic.csv")
+
+df = pd.read_csv(CSV_PATH)
 
 def generate_plot():
     """ Generate histogram of passenger ages and return base64 image """
